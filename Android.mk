@@ -119,6 +119,10 @@ common_shared_libraries += libcryptfs_hw
 LOCAL_CFLAGS += -DCONFIG_HW_DISK_ENCRYPTION
 endif
 
+ifeq ($(TARGET_NO_SD_ADOPT_ENCRYPTION),true)
+LOCAL_CFLAGS += -DCONFIG_NO_SD_ADOPT_ENCRYPTION
+endif
+
 LOCAL_SHARED_LIBRARIES := $(common_shared_libraries)
 LOCAL_STATIC_LIBRARIES := libvold $(common_static_libraries)
 

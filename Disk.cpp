@@ -161,11 +161,12 @@ void Disk::createPrivateVolume(dev_t device, const std::string& partGuid) {
     }
 
     std::string keyRaw;
+#ifndef CONFIG_NO_SD_ADOPT_ENCRYPTION
     if (!ReadFileToString(BuildKeyPath(normalizedGuid), &keyRaw)) {
         PLOG(ERROR) << "Failed to load key for GUID " << normalizedGuid;
         return;
     }
-
+#endif
     LOG(DEBUG) << "Found key for GUID " << normalizedGuid;
 
     auto vol = std::shared_ptr<VolumeBase>(new PrivateVolume(device, keyRaw));

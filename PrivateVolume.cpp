@@ -64,7 +64,9 @@ status_t PrivateVolume::doCreate() {
     if (CreateDeviceNode(mRawDevPath, mRawDevice)) {
         return -EIO;
     }
-
+#ifdef CONFIG_NO_SD_ADOPT_ENCRYPTION
+    mDmDevPath = mRawDevPath;
+#else
     // Recover from stale vold by tearing down any old mappings
     cryptfs_revert_ext_volume(getId().c_str());
 
@@ -79,7 +81,7 @@ status_t PrivateVolume::doCreate() {
         PLOG(ERROR) << getId() << " failed to setup cryptfs";
         return -EIO;
     }
-
+#endif
     return OK;
 }
 
